@@ -108,3 +108,20 @@ namespace CalculadoraASPPOO.Pages
         }
     }
 }
+
+
+📌 Explicación didáctica para tus estudiantes
+PageModel en Razor Pages
+IndexModel actúa como el “controlador” de esta página.
+Contiene las propiedades que se enlazan con los formularios (Numero1, Numero2) y la lógica para manejar las solicitudes.
+
+Diferencia entre OnGet y OnPost
+OnGet(): se ejecuta cuando la página se abre por primera vez (carga inicial).
+OnPost(string operacion): se ejecuta cuando el usuario envía el formulario (por ejemplo, al presionar el botón “Sumar”).
+
+Persistencia con static
+La calculadora se define como static, lo que significa que se mantiene en memoria mientras el servidor esté activo.
+Esto permite conservar el historial de operaciones entre diferentes peticiones de la misma página.
+
+Switch con operaciones
+Según el valor de operacion (que viene del botón del formulario), se ejecuta la operación correspondiente (sumar, restar, etc.).
