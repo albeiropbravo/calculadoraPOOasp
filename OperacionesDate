@@ -1,0 +1,38 @@
+using System;
+
+namespace CalculadoraASPPOO.Models
+{
+    /// <summary>
+    /// Representa una operación realizada en la calculadora,
+    /// guardando la fecha y hora en que ocurrió, junto con
+    /// la descripción de la operación.
+    /// </summary>
+    public class OperacionesDate
+    {
+        /// <summary>
+        /// Fecha y hora exacta en que se ejecutó la operación.
+        /// </summary>
+        public DateTime Time { get; set; }
+
+        /// <summary>
+        /// Descripción textual de la operación realizada
+        /// (por ejemplo: "5 + 3 = 8").
+        /// </summary>
+        public string Text { get; set; } = string.Empty;
+    }
+}
+
+
+Explicación para los estudiantes
+Propiedad Time
+Guarda un DateTime con la fecha y hora de la operación.
+Se asigna en el método RegistrarOperacion de la clase Calculadora.
+
+Propiedad Text
+Es un string que describe lo que pasó, por ejemplo:
+"10 / 2 = 5".
+
+Inicializada con string.Empty para evitar valores nulos (null).
+Uso en conjunto con Calculadora
+Cada vez que el usuario hace una operación, se crea un objeto OperacionesDate y se guarda en la lista _historial.
+Así se puede consultar luego el historial de operaciones realizadas en la sesión.
