@@ -1,0 +1,110 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using CalculadoraASPPOO.Models;
+using System.Collections.Generic;
+
+namespace CalculadoraASPPOO.Pages
+{
+    /// <summary>
+    /// Modelo de la página principal de la calculadora.
+    /// Gestiona la interacción entre la vista Razor (index.cshtml)
+    /// y la lógica implementada en la clase <see cref="Calculadora"/>.
+    /// </summary>
+    public class IndexModel : PageModel
+    {
+        // ==============================
+        // Propiedades que reciben datos desde la Vista
+        // ==============================
+
+        /// <summary>
+        /// Primer número ingresado por el usuario.
+        /// Se enlaza automáticamente con el formulario HTML (data binding).
+        /// </summary>
+        [BindProperty]
+        public double Numero1 { get; set; }
+
+        /// <summary>
+        /// Segundo número ingresado por el usuario.
+        /// También se enlaza con el formulario.
+        /// </summary>
+        [BindProperty]
+        public double Numero2 { get; set; }
+
+        /// <summary>
+        /// Resultado de la última operación realizada.
+        /// Se muestra en la vista después de ejecutar un cálculo.
+        /// </summary>
+        public double Resultado { get; set; }
+
+        // ==============================
+        // Instancia de la calculadora
+        // ==============================
+
+        /// <summary>
+        /// Instancia estática de la calculadora.
+        /// Se utiliza para mantener el historial de operaciones
+        /// mientras el servidor está en ejecución.
+        /// </summary>
+        private static Calculadora calculadora = new Calculadora();
+
+        /// <summary>
+        /// Obtiene el historial de operaciones realizadas por la calculadora.
+        /// Esta propiedad es de solo lectura y se muestra en la vista.
+        /// </summary>
+        public IReadOnlyList<OperacionesDate> Historial => calculadora.Historial;
+
+        // ==============================
+        // Métodos de ciclo de vida de la página
+        // ==============================
+
+        /// <summary>
+        /// Maneja las peticiones GET de la página.
+        /// Se ejecuta al cargar la vista por primera vez.
+        /// </summary>
+        public void OnGet()
+        {
+            // Mostrar el resultado actual almacenado en la calculadora
+            Resultado = calculadora.Resultado;
+        }
+
+        /// <summary>
+        /// Maneja las peticiones POST (cuando el usuario envía el formulario).
+        /// Dependiendo del botón presionado, ejecuta la operación correspondiente.
+        /// </summary>
+        /// <param name="operacion">
+        /// Identificador de la operación enviada desde el formulario.
+        /// Puede ser: "sumar", "restar", "multiplicar", "dividir" o "limpiar".
+        /// </param>
+        public void OnPost(string operacion)
+        {
+            // Asignar los valores ingresados por el usuario a la calculadora
+            calculadora.Numero1 = Numero1;
+            calculadora.Numero2 = Numero2;
+
+            // Ejecutar la operación según el botón presionado
+            switch (operacion)
+            {
+                case "sumar":
+                    Resultado = calculadora.Sumar();
+                    break;
+
+                case "restar":
+                    Resultado = calculadora.Restar();
+                    break;
+
+                case "multiplicar":
+                    Resultado = calculadora.Multiplicar();
+                    break;
+
+                case "dividir":
+                    Resultado = calculadora.Dividir();
+                    break;
+
+                case "limpiar":
+                    calculadora.Limpiar();
+                    Resultado = 0;
+                    break;
+            }
+        }
+    }
+}
