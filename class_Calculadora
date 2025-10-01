@@ -1,0 +1,125 @@
+using System;
+using System.Collections.Generic;
+
+namespace CalculadoraASPPOO.Models
+{
+    /// <summary>
+    /// Representa una calculadora básica que permite realizar operaciones aritméticas
+    /// (+, -, *, /) entre dos números. 
+    /// Además, mantiene un historial de operaciones realizadas.
+    /// </summary>
+    public class Calculadora
+    {
+        /// <summary>
+        /// Primer número a utilizar en la operación.
+        /// </summary>
+        public double Numero1 { get; set; }
+
+        /// <summary>
+        /// Segundo número a utilizar en la operación.
+        /// </summary>
+        public double Numero2 { get; set; }
+
+        /// <summary>
+        /// Almacena el resultado de la última operación realizada.
+        /// </summary>
+        public double Resultado { get; set; }
+
+        // ==============================
+        // Manejo del historial
+        // ==============================
+
+        /// <summary>
+        /// Lista privada que guarda las operaciones realizadas.
+        /// Solo es modificable internamente mediante los métodos de la clase.
+        /// </summary>
+        private readonly List<OperacionesDate> _historial = new();
+
+        /// <summary>
+        /// Registra una operación en el historial con la fecha, hora y el texto de la operación.
+        /// </summary>
+        /// <param name="text">Texto descriptivo de la operación (ej: "5 + 3 = 8").</param>
+        private void RegistrarOperacion(string text)
+        {
+            _historial.Add(new OperacionesDate
+            {
+                Time = DateTime.Now,
+                Text = text
+            });
+        }
+
+        // ==============================
+        // Operaciones aritméticas
+        // ==============================
+
+        /// <summary>
+        /// Realiza la suma entre <see cref="Numero1"/> y <see cref="Numero2"/>.
+        /// </summary>
+        /// <returns>El resultado de la suma.</returns>
+        public double Sumar()
+        {
+            Resultado = Numero1 + Numero2;
+            RegistrarOperacion($"{Numero1} + {Numero2} = {Resultado}");
+            return Resultado;
+        }
+
+        /// <summary>
+        /// Realiza la resta entre <see cref="Numero1"/> y <see cref="Numero2"/>.
+        /// </summary>
+        /// <returns>El resultado de la resta.</returns>
+        public double Restar()
+        {
+            Resultado = Numero1 - Numero2;
+            RegistrarOperacion($"{Numero1} - {Numero2} = {Resultado}");
+            return Resultado;
+        }
+
+        /// <summary>
+        /// Realiza la multiplicación entre <see cref="Numero1"/> y <see cref="Numero2"/>.
+        /// </summary>
+        /// <returns>El resultado de la multiplicación.</returns>
+        public double Multiplicar()
+        {
+            Resultado = Numero1 * Numero2;
+            RegistrarOperacion($"{Numero1} * {Numero2} = {Resultado}");
+            return Resultado;
+        }
+
+        /// <summary>
+        /// Realiza la división entre <see cref="Numero1"/> y <see cref="Numero2"/>.
+        /// </summary>
+        /// <exception cref="DivideByZeroException">Se lanza si <see cref="Numero2"/> es 0.</exception>
+        /// <returns>El resultado de la división.</returns>
+        public double Dividir()
+        {
+            if (Numero2 == 0)
+            {
+                throw new DivideByZeroException("No se puede dividir entre cero");
+            }
+
+            Resultado = Numero1 / Numero2;
+            RegistrarOperacion($"{Numero1} / {Numero2} = {Resultado}");
+            return Resultado;
+        }
+
+        // ==============================
+        // Métodos utilitarios
+        // ==============================
+
+        /// <summary>
+        /// Reinicia los valores de la calculadora y limpia el historial de operaciones.
+        /// </summary>
+        public void Limpiar()
+        {
+            Numero1 = 0;
+            Numero2 = 0;
+            Resultado = 0;
+            _historial.Clear();
+        }
+
+        /// <summary>
+        /// Obtiene una lista de solo lectura con el historial de operaciones realizadas.
+        /// </summary>
+        public IReadOnlyList<OperacionesDate> Historial => _historial.AsReadOnly();
+    }
+}
