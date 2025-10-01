@@ -123,3 +123,16 @@ namespace CalculadoraASPPOO.Models
         public IReadOnlyList<OperacionesDate> Historial => _historial.AsReadOnly();
     }
 }
+📌 Notas importantes para tus estudiantes:
+Encapsulamiento del historial
+_historial es privado para que nadie pueda modificarlo desde afuera, solo la clase lo gestiona.
+Se expone con IReadOnlyList<OperacionesDate> para consulta, pero no permite modificaciones externas.
+
+Buenas prácticas
+Uso de throw para manejar errores (ej. división por cero).
+Uso de interpolación de cadenas $"{...}" para registrar operaciones con claridad.
+
+Extensibilidad
+Esta clase puede crecer con nuevas operaciones (ej. potencias, raíces, módulo).
+
+El historial podría almacenarse luego en base de datos en lugar de memoria.
